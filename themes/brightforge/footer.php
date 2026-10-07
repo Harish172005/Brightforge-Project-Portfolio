@@ -36,15 +36,15 @@
 
 				<li>
 					<strong>Email:</strong><br>
-					<a href="mailto:info@brightforgedigital.com">
-						info@brightforgedigital.com
+					<a href="mailto:hello@brightforgedigital.com">
+						hello@brightforgedigital.com
 					</a>
 				</li>
 
 				<li>
 					<strong>Phone:</strong><br>
 					<a href="tel:+919999999999">
-						+91 99999 99999
+						+91 8542341265
 					</a>
 				</li>
 
