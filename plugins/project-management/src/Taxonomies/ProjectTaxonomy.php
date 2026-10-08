@@ -1,6 +1,6 @@
 <?php
 
-namespace Harish\ProjectManager\Taxonomies;
+namespace Brightforge\ProjectManager\Taxonomies;
 
 class ProjectTaxonomy
 {

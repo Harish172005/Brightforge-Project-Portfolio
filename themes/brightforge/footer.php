@@ -4,6 +4,9 @@
  *
  * @package Brightforge
  */
+
+$phone = get_theme_mod( 'brightforge_phone' );
+$email = get_theme_mod( 'brightforge_email' );
 ?>
 
 </main>
@@ -16,66 +19,107 @@
 		<div class="footer-column footer-company">
 
 			<h2 class="footer-logo">
-				Brightforge Digital
+				<?php bloginfo( 'name' ); ?>
 			</h2>
 
 			<p>
-				Building reliable, scalable, and user-focused digital
-				solutions that help businesses grow.
+				<?php esc_html_e(
+					'Building reliable, scalable, and user-focused digital solutions that help businesses grow.',
+					'brightforge'
+				); ?>
 			</p>
 
 		</div>
 
-
 		<!-- Contact Information -->
 		<div class="footer-column">
 
-			<h3>Get In Touch</h3>
+			<h3>
+				<?php esc_html_e( 'Get In Touch', 'brightforge' ); ?>
+			</h3>
 
 			<ul class="footer-contact">
 
-				<li>
-					<strong>Email:</strong><br>
-					<a href="mailto:hello@brightforgedigital.com">
-						hello@brightforgedigital.com
-					</a>
-				</li>
+				<?php if ( $email ) : ?>
+					<li>
+						<strong>
+							<?php esc_html_e( 'Email:', 'brightforge' ); ?>
+						</strong><br>
+
+						<a href="mailto:<?php echo esc_attr( $email ); ?>">
+							<?php echo esc_html( $email ); ?>
+						</a>
+					</li>
+				<?php endif; ?>
+
+				<?php if ( $phone ) : ?>
+					<li>
+						<strong>
+							<?php esc_html_e( 'Phone:', 'brightforge' ); ?>
+						</strong><br>
+
+						<a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone ) ); ?>">
+							<?php echo esc_html( $phone ); ?>
+						</a>
+					</li>
+				<?php endif; ?>
 
 				<li>
-					<strong>Phone:</strong><br>
-					<a href="tel:+919999999999">
-						+91 8542341265
-					</a>
-				</li>
+					<strong>
+						<?php esc_html_e( 'Location:', 'brightforge' ); ?>
+					</strong><br>
 
-				<li>
-					<strong>Location:</strong><br>
-					Bangalore, India
+					<?php esc_html_e( 'Bangalore, India', 'brightforge' ); ?>
 				</li>
 
 			</ul>
 
 		</div>
 
+		<!-- Footer Widget Areas -->
+		<?php for ( $i = 1; $i <= 4; $i++ ) : ?>
+
+			<?php if ( is_active_sidebar( 'footer-' . $i ) ) : ?>
+
+				<div class="footer-column">
+
+					<?php dynamic_sidebar( 'footer-' . $i ); ?>
+
+				</div>
+
+			<?php endif; ?>
+
+		<?php endfor; ?>
+
 	</div>
-
-
-	<!-- Footer Bottom -->
 
 	<div class="footer-bottom">
 
 		<div class="wrap footer-bottom__inner">
 
-			<p>
-				&copy; <?php echo esc_html( date( 'Y' ) ); ?>
-				Brightforge Digital. All rights reserved.
-			</p>
+			<?php get_template_part( 'template-parts/footer-credit' ); ?>
 
 			<div class="footer-bottom__links">
 
-				<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>">
-					Privacy Policy
-				</a>
+				<?php if ( has_nav_menu( 'footer' ) ) : ?>
+
+					<?php
+					wp_nav_menu(
+						array(
+							'theme_location' => 'footer',
+							'container'      => false,
+							'depth'          => 1,
+						)
+					);
+					?>
+
+				<?php elseif ( get_privacy_policy_url() ) : ?>
+
+					<a href="<?php echo esc_url( get_privacy_policy_url() ); ?>">
+						<?php esc_html_e( 'Privacy Policy', 'brightforge' ); ?>
+					</a>
+
+				<?php endif; ?>
 
 			</div>
 

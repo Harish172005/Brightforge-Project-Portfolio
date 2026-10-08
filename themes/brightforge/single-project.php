@@ -14,8 +14,8 @@ get_header();
 
 		$industry  = brightforge_project_industry( get_the_ID() );
 		$status    = brightforge_project_status( get_the_ID() );
-		$completed = get_post_meta( get_the_ID(), '_harish_project_completed', true );
-		$url       = get_post_meta( get_the_ID(), '_harish_project_url', true );
+		$completed = get_post_meta( get_the_ID(), '_brightforge_project_completed', true );
+		$url       = get_post_meta( get_the_ID(), '_brightforge_project_url', true );
 		?>
 		<article id="post-<?php the_ID(); ?>" <?php post_class( 'entry ' . brightforge_industry_class( $industry ) ); ?>>
 			<header class="page-head">

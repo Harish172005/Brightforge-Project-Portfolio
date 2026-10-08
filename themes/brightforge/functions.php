@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BRIGHTFORGE_VERSION', '1.0.0' );
+define( 'BRIGHTFORGE_VERSION', '1.0.1' );
 
 /**
  * Theme supports, menus and image sizes.
@@ -127,7 +127,7 @@ function brightforge_project_query( $query ) {
 	}
 
 	if ( $query->is_post_type_archive( 'project' ) || $query->is_tax( array( 'project_type', 'technologies' ) ) ) {
-		$query->set( 'posts_per_page', max( 1, (int) get_option( 'harish_projects_per_page', 9 ) ) );
+		$query->set( 'posts_per_page', max( 1, (int) get_option( 'brightforge_projects_per_page', 9 ) ) );
 	}
 }
 add_action( 'pre_get_posts', 'brightforge_project_query' );
@@ -160,5 +160,5 @@ function brightforge_industry_class( $term ) {
  * @return string
  */
 function brightforge_project_status( $post_id ) {
-	return (string) get_post_meta( $post_id, '_harish_project_status', true );
+	return (string) get_post_meta( $post_id, '_brightforge_project_status', true );
 }

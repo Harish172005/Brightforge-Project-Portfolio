@@ -1,23 +1,23 @@
 <?php
 
-namespace Harish\ProjectManager;
+namespace Brightforge\ProjectManager;
 
-use Harish\ProjectManager\PostTypes\ProjectPostType;
-use Harish\ProjectManager\Taxonomies\ProjectTaxonomy;
-use Harish\ProjectManager\Admin\JavaProjectsPage;
-use Harish\ProjectManager\Admin\SettingsPage;
-use Harish\ProjectManager\Admin\AdminMessage;
-use Harish\ProjectManager\Admin\ProjectMeta;
-use Harish\ProjectManager\Database\ProjectViews;
-use Harish\ProjectManager\Api\ProjectController;
-use Harish\ProjectManager\Api\AjaxController;
-use Harish\ProjectManager\Support\ProjectRoles;
+use Brightforge\ProjectManager\PostTypes\ProjectPostType;
+use Brightforge\ProjectManager\Taxonomies\ProjectTaxonomy;
+use Brightforge\ProjectManager\Admin\JavaProjectsPage;
+use Brightforge\ProjectManager\Admin\SettingsPage;
+use Brightforge\ProjectManager\Admin\AdminMessage;
+use Brightforge\ProjectManager\Admin\ProjectMeta;
+use Brightforge\ProjectManager\Database\ProjectViews;
+use Brightforge\ProjectManager\Api\ProjectController;
+use Brightforge\ProjectManager\Api\AjaxController;
+use Brightforge\ProjectManager\Support\ProjectRoles;
+use Brightforge\ProjectManager\Widgets\MostViewedWidget;
 
 class Plugin
 {
     private ProjectPostType $projectPostType;
     private ProjectTaxonomy $projectTaxonomy;
-    private JavaProjectsPage $javaProjectsPage;
     private SettingsPage $settingsPage;
     private AdminMessage $adminMessage;
     private ProjectMeta $projectMeta;
@@ -30,7 +30,6 @@ class Plugin
     {
         $this->projectPostType = new ProjectPostType();
         $this->projectTaxonomy = new ProjectTaxonomy();
-        $this->javaProjectsPage = new JavaProjectsPage();
         $this->settingsPage = new SettingsPage();
         $this->adminMessage = new AdminMessage();
         $this->projectMeta = new ProjectMeta();
@@ -44,7 +43,6 @@ class Plugin
     {
         $this->projectPostType->registerHooks();
         $this->projectTaxonomy->registerHooks();
-        $this->javaProjectsPage->registerHooks();
         $this->settingsPage->registerHooks();
         $this->adminMessage->registerHooks();
         $this->projectMeta->registerHooks();
@@ -52,5 +50,7 @@ class Plugin
         $this->projectController->registerHooks();
         $this->ajaxController->registerHooks();
         $this->projectRoles->registerHooks();
-    }
+
+        add_action('widgets_init', [MostViewedWidget::class, 'register']);
+     }
 }

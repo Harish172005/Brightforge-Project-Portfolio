@@ -1,6 +1,6 @@
 <?php
 
-namespace Harish\ProjectManager\PostTypes;
+namespace Brightforge\ProjectManager\PostTypes;
 
 class ProjectPostType
 {

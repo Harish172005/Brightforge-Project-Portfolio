@@ -1,6 +1,6 @@
 <?php
 
-namespace Harish\ProjectManager\Support;
+namespace Brightforge\ProjectManager\Support;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -27,11 +27,11 @@ class ProjectData
             'category'      => ($categories && !is_wp_error($categories))
                 ? wp_list_pluck($categories, 'name')
                 : [],
-            'status'        => (string) get_post_meta($id, '_harish_project_status', true),
+            'status'        => (string) get_post_meta($id, '_brightforge_project_status', true),
             'image'         => (string) get_the_post_thumbnail_url($id, 'medium'),
             'wordpress_url' => get_permalink($id),
             'project_url'   => esc_url_raw(
-                (string) get_post_meta($id, '_harish_project_url', true)
+                (string) get_post_meta($id, '_brightforge_project_url', true)
             ),
             'github_url'    => $github_url ? esc_url_raw($github_url) : '',
         ];

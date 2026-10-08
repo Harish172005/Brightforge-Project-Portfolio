@@ -1,6 +1,6 @@
 <?php
 
-namespace Harish\ProjectManager\Support;
+namespace Brightforge\ProjectManager\Support;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -17,7 +17,7 @@ class ProjectRoles
 {
     public const ROLE            = 'project_manager';
     private const VERSION        = '1';
-    private const VERSION_OPTION = 'harish_roles_version';
+    private const VERSION_OPTION = 'brightforge_roles_version';
 
     public static function capabilities(): array
     {

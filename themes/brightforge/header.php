@@ -33,15 +33,24 @@ $email = get_theme_mod( 'brightforge_email' );
 <?php endif; ?>
 
 <header class="site-header">
-	<div class="wrap site-header__inner">
+	<div class="site-header__inner wrap">
 		<div class="site-brand">
+
 			<?php if ( has_custom_logo() ) : ?>
 				<?php the_custom_logo(); ?>
-			<?php else : ?>
-				<a class="site-brand__name" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a>
 			<?php endif; ?>
-		</div>
 
+			<div class="site-brand__text">
+				<a class="site-brand__name" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+					<?php bloginfo( 'name' ); ?>
+				</a>
+
+				<span class="site-brand__tagline">
+					<?php bloginfo( 'description' ); ?>
+				</span>
+			</div>
+
+		</div>
 		<button class="nav-toggle" aria-controls="site-nav" aria-expanded="false">
 			<?php esc_html_e( 'Menu', 'brightforge' ); ?>
 		</button>
