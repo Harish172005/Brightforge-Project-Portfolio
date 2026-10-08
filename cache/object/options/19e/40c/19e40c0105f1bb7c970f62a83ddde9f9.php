@@ -1,0 +1,1 @@
+ù@Æj<?php exit; ?>a:2:{s:7:"content";s:170:"a:2:{s:30:"wp_wpforms_analytics_snapshots";a:1:{i:0;s:30:"wp_wpforms_analytics_snapshots";}s:26:"wp_wpforms_analytics_forms";a:1:{i:0;s:26:"wp_wpforms_analytics_forms";}}";s:15:"key_version_all";i:1;}
