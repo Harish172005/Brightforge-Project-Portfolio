@@ -22,6 +22,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-/wp-content/plugins/project-management/vendor/
+/plugins/project-management/vendor/
 
-/wp-content/plugins/project-management/tests/
+/plugins/wp-mail-smtp/
