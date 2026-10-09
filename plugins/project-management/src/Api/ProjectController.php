@@ -72,6 +72,7 @@ class ProjectController
 
         if ($page > max(1, (int) $query->max_num_pages)) {
             wp_reset_postdata();
+            
 
             return new WP_Error(
                 'brightforge_page_out_of_range',
