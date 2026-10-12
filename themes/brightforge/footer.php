@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Site footer for Brightforge Digital.
@@ -56,6 +57,18 @@
 			</ul>
 
 		</div>
+
+
+		<!-- Footer Column 1 Widgets -->
+		<?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
+
+			<div class="footer-column footer-widgets">
+
+				<?php dynamic_sidebar( 'footer-1' ); ?>
+
+			</div>
+
+		<?php endif; ?>
 
 	</div>
 
