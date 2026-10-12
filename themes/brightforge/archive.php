@@ -1,6 +1,7 @@
 <?php
 /**
  * Archives: categories, tags, dates, authors and the project taxonomies.
+ * Project taxonomy pages use the plugin's [projects] shortcode.
  *
  * @package Brightforge
  */
@@ -16,25 +17,28 @@ $is_projects = is_tax( array( 'project_type', 'technologies' ) );
 			<?php the_archive_description( '<div class="page-head__lead">', '</div>' ); ?>
 		</header>
 
-		<?php if ( $is_projects ) : ?>
-			<?php get_template_part( 'template-parts/project-filters' ); ?>
-		<?php endif; ?>
+		<?php if ( $is_projects && shortcode_exists( 'projects' ) ) : ?>
 
-		<?php if ( have_posts() ) : ?>
-			<div class="<?php echo $is_projects ? 'grid' : 'post-list'; ?>">
+			<?php
+			$term = get_queried_object();
+			$key  = ( 'technologies' === $term->taxonomy ) ? 'technology' : 'industry';
+
+			echo do_shortcode( sprintf( '[projects filters="yes" %s="%s"]', $key, esc_attr( $term->slug ) ) );
+			?>
+
+		<?php elseif ( have_posts() ) : ?>
+
+			<div class="post-list">
 				<?php while ( have_posts() ) : the_post(); ?>
-					<?php
-					if ( $is_projects ) {
-						get_template_part( 'template-parts/card', 'project' );
-					} else {
-						get_template_part( 'template-parts/content', 'post' );
-					}
-					?>
+					<?php get_template_part( 'template-parts/content', 'post' ); ?>
 				<?php endwhile; ?>
 			</div>
 			<?php the_posts_pagination(); ?>
+
 		<?php else : ?>
+
 			<?php get_template_part( 'template-parts/content', 'none' ); ?>
+
 		<?php endif; ?>
 	</div>
 	<?php

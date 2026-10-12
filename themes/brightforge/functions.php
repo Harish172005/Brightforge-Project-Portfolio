@@ -176,6 +176,17 @@ function brightforge_project_industry( $post_id ) {
 }
 
 /**
+ * Template helper: the first industry (project_type term) of a project.
+ *
+ * @param int $post_id Project ID.
+ * @return WP_Term|null
+ */
+function brightforge_project_industry( $post_id ) {
+	$terms = get_the_terms( $post_id, 'project_type' );
+	return ( $terms && ! is_wp_error( $terms ) ) ? $terms[0] : null;
+}
+
+/**
  * Template helper: CSS class for an industry colour (e.g. industry-fintech).
  *
  * @param WP_Term|null $term Industry term.
@@ -186,11 +197,11 @@ function brightforge_industry_class( $term ) {
 }
 
 /**
- * Template helper: a project's status label, if the plugin has saved one.
+ * Template helper: a project's status label, if one was saved.
  *
  * @param int $post_id Project ID.
  * @return string
  */
 function brightforge_project_status( $post_id ) {
-	return (string) get_post_meta( $post_id, '_brightforge_project_status', true );
+	return (string) get_post_meta( $post_id, '_harish_project_status', true );
 }
