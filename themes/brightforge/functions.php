@@ -134,16 +134,3 @@ function brightforge_project_query( $query ) {
 add_action( 'pre_get_posts', 'brightforge_project_query' );
 
 
-function brightforge_industry_class( $term ) {
-	return $term ? 'industry-' . sanitize_html_class( $term->slug ) : 'industry-default';
-}
-
-/**
- * Template helper: a project's status label, if the plugin has saved one.
- *
- * @param int $post_id Project ID.
- * @return string
- */
-function brightforge_project_status( $post_id ) {
-	return (string) get_post_meta( $post_id, '_brightforge_project_status', true );
-}
