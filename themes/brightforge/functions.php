@@ -116,22 +116,64 @@ function brightforge_customize( $wp_customize ) {
 add_action( 'customize_register', 'brightforge_customize' );
 
 /**
- * Show a configurable number of projects on the project taxonomy pages.
- * Uses the plugin's "projects per page" option when it exists.
- * Filtering is done by the plugin's [projects] shortcode, not here.
- *
- * @param WP_Query $query The main query.
+ * The statuses a project can have. Keep in step with the plugin's list.
+ */
+function brightforge_project_statuses() {
+	return array( 'Planned', 'In Progress', 'Completed' );
+}
+
+/**
+ * Allow ?project_status=... in the project filter URLs.
+ */
+function brightforge_query_vars( $vars ) {
+	$vars[] = 'project_status';
+	return $vars;
+}
+add_filter( 'query_vars', 'brightforge_query_vars' );
+
+/**
+ * Project listings: page size and the status filter.
+ * Industry and technology work by themselves (public taxonomies).
+ * Status is a custom field, so it needs a meta query.
  */
 function brightforge_project_query( $query ) {
 	if ( is_admin() || ! $query->is_main_query() ) {
 		return;
 	}
 
-	if ( $query->is_post_type_archive( 'project' ) || $query->is_tax( array( 'project_type', 'technologies' ) ) ) {
-		$query->set( 'posts_per_page', max( 1, (int) get_option( 'harish_projects_per_page', 9 ) ) );
+	$is_listing = $query->is_post_type_archive( 'project' )
+		|| $query->is_tax( array( 'project_type', 'technologies' ) )
+		|| ( $query->is_search() && 'project' === $query->get( 'post_type' ) );
+
+	if ( ! $is_listing ) {
+		return;
+	}
+
+	$query->set( 'posts_per_page', max( 1, (int) get_option( 'brightforge_projects_per_page', 9 ) ) );
+
+	$status = sanitize_text_field( (string) $query->get( 'project_status' ) );
+
+	// Only a known status is used, so nothing else reaches the query.
+	if ( in_array( $status, brightforge_project_statuses(), true ) ) {
+		$query->set( 'meta_query', array(
+			array(
+				'key'   => '_brightforge_project_status',
+				'value' => $status,
+			),
+		) );
 	}
 }
 add_action( 'pre_get_posts', 'brightforge_project_query' );
+/**
+ * Template helper: the first industry (project_type term) of a project.
+ *
+ * @param int $post_id Project ID.
+ * @return WP_Term|null
+ */
+function brightforge_project_industry( $post_id ) {
+	$terms = get_the_terms( $post_id, 'project_type' );
+	return ( $terms && ! is_wp_error( $terms ) ) ? $terms[0] : null;
+}
 
 /**
  * Template helper: the first industry (project_type term) of a project.
