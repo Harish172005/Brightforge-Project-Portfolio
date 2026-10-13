@@ -25,6 +25,7 @@ class ProjectQuery
     {
         $raw    = wp_unslash($raw);
         $status = self::text($raw, 'status');
+        $per_page = absint(self::text($raw, 'per_page'));
 
         return [
             'industry'   => sanitize_title(self::text($raw, 'industry')),
@@ -33,7 +34,7 @@ class ProjectQuery
             'search'     => sanitize_text_field(self::text($raw, 'search')),
             'ids'        => array_values(array_filter(array_map('absint', explode(',', self::text($raw, 'ids'))))),
             'page'       => max(1, absint(self::text($raw, 'page'))),
-            'per_page'   => min(self::MAX_PER_PAGE, max(1, absint(self::text($raw, 'per_page') ?: 6))),
+            'per_page'   => min(self::MAX_PER_PAGE, $per_page > 0 ? $per_page : 6),
         ];
     }
 
