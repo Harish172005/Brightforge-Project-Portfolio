@@ -67,7 +67,7 @@
     "dbcache.wp_cron_time": 0,
     "dbcache.wp_cron_interval": "daily",
     "docroot_fix.enable": false,
-    "lazyload.enabled": false,
+    "lazyload.enabled": true,
     "lazyload.threshold": "",
     "lazyload.process_img": true,
     "lazyload.process_background": true,
@@ -170,7 +170,7 @@
     "pgcache.redis.read_timeout": 0,
     "pgcache.cache.query": false,
     "pgcache.cache.home": true,
-    "pgcache.cache.feed": false,
+    "pgcache.cache.feed": true,
     "pgcache.cache.nginx_handle_xml": true,
     "pgcache.cache.ssl": true,
     "pgcache.cache.404": false,
@@ -184,9 +184,9 @@
     "pgcache.compatibility": false,
     "pgcache.remove_charset": false,
     "pgcache.accept.uri": [
-        "sitemap(_index)?\\.xml(\\.gz)?",
         "([a-z0-9_\\-]+)?sitemap\\.xsl",
-        "[a-z0-9_\\-]+-sitemap([0-9]+)?\\.xml(\\.gz)?"
+        "[a-z0-9_\\-]+-sitemap([0-9]+)?\\.xml(\\.gz)?",
+        "sitemap(_index)?\\.xml(\\.gz)?"
     ],
     "pgcache.accept.files": [
         "wp-comments-popup.php",
@@ -305,8 +305,8 @@
     "pgcache.reject.logged_roles": false,
     "pgcache.reject.roles": [],
     "pgcache.reject.uri": [
-        "wp-.*\\.php",
-        "index\\.php"
+        "index\\.php",
+        "wp-.*\\.php"
     ],
     "pgcache.reject.categories": [],
     "pgcache.reject.tags": [],
@@ -614,7 +614,7 @@
     "varnish.debug": false,
     "varnish.servers": [],
     "browsercache.configuration_overloaded": false,
-    "browsercache.enabled": false,
+    "browsercache.enabled": true,
     "browsercache.rewrite": true,
     "browsercache.no404wp": false,
     "browsercache.no404wp.exceptions": [
@@ -996,10 +996,12 @@
     "common.instance_id": 1862281363,
     "common.force_master": true,
     "extensions.active": {
+        "imageservice": "w3-total-cache\/Extension_ImageService_Plugin.php",
         "wordpress-seo": "w3-total-cache\/Extension_WordPressSeo_Plugin.php"
     },
     "extensions.active_frontend": {
-        "wordpress-seo": "*"
+        "wordpress-seo": "*",
+        "imageservice": "*"
     },
     "extensions.active_dropin": [],
     "plugin.license_key": "",
@@ -1008,12 +1010,21 @@
     "imageservice": {
         "compression": "lossy",
         "auto": "enabled",
-        "visibility": "never",
+        "visibility": "always",
         "webp": true,
-        "avif": true
+        "avif": false
     },
     "imageservice.configuration_overloaded": true,
     "fragmentcache": {
         "engine": "file"
-    }
+    },
+    "extension.imageservice": "1",
+    "user-experience-defer-scripts": {
+        "timeout": 5000
+    },
+    "extension.user-experience-emoji": "0",
+    "extension.user-experience-defer-scripts": "0",
+    "extension.user-experience-remove-cssjs": "0",
+    "extension.user-experience-preload-requests": "0",
+    "extension.user-experience-oembed": "0"
 }
