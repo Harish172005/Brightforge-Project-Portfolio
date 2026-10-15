@@ -116,16 +116,49 @@ function brightforge_customize( $wp_customize ) {
 add_action( 'customize_register', 'brightforge_customize' );
 
 /**
- * Get the first project industry term for the single-project template.
- *
- * @param int $post_id Project post ID.
- * @return WP_Term|null The first industry term, or null when none is assigned.
+ * The statuses a project can have. Keep in step with the plugin's list.
+ */
+function brightforge_project_statuses() {
+	return array( 'Planned', 'In Progress', 'Completed' );
+}
+
+/**
+ * Allow ?project_status=... in the project filter URLs.
+ */
+function brightforge_query_vars( $vars ) {
+	$vars[] = 'project_status';
+	return $vars;
+}
+add_filter( 'query_vars', 'brightforge_query_vars' );
+
+/**
+ * Project listings: page size and the status filter.
+ * Industry and technology work by themselves (public taxonomies).
+ * Status is a custom field, so it needs a meta query.
  */
 function brightforge_project_industry( $post_id ) {
 	$terms = get_the_terms( $post_id, 'project_type' );
 
-	if ( empty( $terms ) || is_wp_error( $terms ) ) {
-		return null;
+	$is_listing = $query->is_post_type_archive( 'project' )
+		|| $query->is_tax( array( 'project_type', 'technologies' ) )
+		|| ( $query->is_search() && 'project' === $query->get( 'post_type' ) );
+
+	if ( ! $is_listing ) {
+		return;
+	}
+
+	$query->set( 'posts_per_page', max( 1, (int) get_option( 'brightforge_projects_per_page', 9 ) ) );
+
+	$status = sanitize_text_field( (string) $query->get( 'project_status' ) );
+
+	// Only a known status is used, so nothing else reaches the query.
+	if ( in_array( $status, brightforge_project_statuses(), true ) ) {
+		$query->set( 'meta_query', array(
+			array(
+				'key'   => '_brightforge_project_status',
+				'value' => $status,
+			),
+		) );
 	}
 
 	return $terms[0];
