@@ -116,6 +116,46 @@ function brightforge_customize( $wp_customize ) {
 add_action( 'customize_register', 'brightforge_customize' );
 
 /**
+ * Get the first project industry term for the single-project template.
+ *
+ * @param int $post_id Project post ID.
+ * @return WP_Term|null The first industry term, or null when none is assigned.
+ */
+function brightforge_project_industry( $post_id ) {
+	$terms = get_the_terms( $post_id, 'project_type' );
+
+	if ( empty( $terms ) || is_wp_error( $terms ) ) {
+		return null;
+	}
+
+	return $terms[0];
+}
+
+/**
+ * Get the project status saved by the Project Management Toolkit.
+ *
+ * @param int $post_id Project post ID.
+ * @return string Project status, or an empty string when it is not set.
+ */
+function brightforge_project_status( $post_id ) {
+	return (string) get_post_meta( $post_id, '_brightforge_project_status', true );
+}
+
+/**
+ * Get the industry CSS class used to colour a project entry.
+ *
+ * @param WP_Term|null $industry Project industry term.
+ * @return string Industry CSS class.
+ */
+function brightforge_industry_class( $industry ) {
+	if ( ! is_object( $industry ) || empty( $industry->slug ) ) {
+		return 'industry-default';
+	}
+
+	return 'industry-' . sanitize_html_class( $industry->slug );
+}
+
+/**
  * Show a configurable number of projects on the project taxonomy pages.
  * Uses the plugin's "projects per page" option when it exists.
  * Filtering is done by the plugin's [projects] shortcode, not here.
@@ -132,34 +172,3 @@ function brightforge_project_query( $query ) {
 	}
 }
 add_action( 'pre_get_posts', 'brightforge_project_query' );
-
-/**
- * Template helper: the first industry (project_type term) of a project.
- *
- * @param int $post_id Project ID.
- * @return WP_Term|null
- */
-function brightforge_project_industry( $post_id ) {
-	$terms = get_the_terms( $post_id, 'project_type' );
-	return ( $terms && ! is_wp_error( $terms ) ) ? $terms[0] : null;
-}
-
-/**
- * Template helper: CSS class for an industry colour (e.g. industry-fintech).
- *
- * @param WP_Term|null $term Industry term.
- * @return string
- */
-function brightforge_industry_class( $term ) {
-	return $term ? 'industry-' . sanitize_html_class( $term->slug ) : 'industry-default';
-}
-
-/**
- * Template helper: a project's status label, if one was saved.
- *
- * @param int $post_id Project ID.
- * @return string
- */
-function brightforge_project_status( $post_id ) {
-	return (string) get_post_meta( $post_id, '_harish_project_status', true );
-}
